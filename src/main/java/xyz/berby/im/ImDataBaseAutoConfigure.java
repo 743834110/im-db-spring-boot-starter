@@ -4,17 +4,23 @@ package xyz.berby.im;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
+import xyz.berby.im.util.ApplicationContextHolder;
+
+import javax.annotation.PostConstruct;
 
 @EnableAutoConfiguration(exclude = ImDataBaseAutoConfigure.class)
 @PropertySource("classpath:application.properties")
 public class ImDataBaseAutoConfigure {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private ImDataBaseAutoConfigure(ApplicationContext applicationContext) {
+        ApplicationContextHolder contextHolder = new ApplicationContextHolder();
+        contextHolder.setApplicationContext(applicationContext);
+        System.out.println("fffffffffffff" + applicationContext);
+    }
 
     public static void main(String [] args) {
         new AnnotationConfigApplicationContext(ImDataBaseAutoConfigure.class);
